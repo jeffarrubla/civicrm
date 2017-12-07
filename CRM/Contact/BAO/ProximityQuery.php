@@ -214,7 +214,7 @@ class CRM_Contact_BAO_ProximityQuery {
    */
   public static function where($latitude, $longitude, $distance, $tablePrefix = 'civicrm_address') {
     self::initialize();
-var_dump($distance);
+//var_dump($distance);
     $params = array();
     $clause = array();
 
@@ -248,7 +248,7 @@ ACOS(
     SIN(RADIANS($latitude))
   ) * 6378137  <= $distance
 ";
-var_dump($where);
+//var_dump($where);
     return $where;
   }
 
@@ -265,21 +265,22 @@ var_dump($where);
     list($name, $op, $distance, $grouping, $wildcard) = $values;
     /* SRTART: I HAVE ADDED THIS */
     //var_dump($distance);
+    // SEARCH BUILDIER (This shall be on other place)
     // To filter the array with the distance so we can work with it.
     // Create an string so it can be $distance OR $distance OR $distance
     // so the where statement on query can be done.  
     if(is_array($distance)){
       $result = '';
       foreach ($distance as $key => $value) {
-        $temp_result[$key] = array_filter($value);                 
-        if(!empty($temp_result[$key])){
-          $result .=  join(' OR ', $temp_result[$key] );          
-          unset($temp_result[$key]);
+        $temp_distance[$key] = array_filter($value);                 
+        if(!empty($temp_distance[$key])){
+          $result .=  join(' OR ', $temp_distance[$key] ); // create string of distances for the query         
+        }else{
+          unset($temp_distance[$key]);
         }       
       }      
       $distance = $result;      
-    }
-    var_dump($distance);
+    }   
     /* END: I HAVE ADDED THIS */
 
 
@@ -299,12 +300,6 @@ var_dump($where);
     $qill = array();
     foreach ($proximityVars as $var => $recordQill) {
       $proximityValues = $query->getWhereValues("prox_{$var}", $grouping);
-
-    echo '<pre>valuessssss';
-    var_dump($grouping);
-    var_dump($var)  ;
-    var_dump($proximityValues);
-    echo 'valuessssss</pre>';
 
       if (!empty($proximityValues) &&
         !empty($proximityValues[2])
@@ -340,15 +335,20 @@ var_dump($where);
       $proximityAddress['country'] = CRM_Core_PseudoConstant::country($proximityAddress['country_id']);
       $qill[] = $proximityAddress['country'];
     }
-    //I need to work here;
-    //I'm getting this 
-    /* this is the way it's getting the infor from the view, there is need only for 1 miles per distance value, nor distance value, not distance unit
-    array(3) { ["distance_unit"]=> array(3) { [1]=> array(5) { [0]=> string(5) "miles" [1]=> string(5) "miles" [2]=> string(5) "miles" [3]=> string(5) "miles" [4]=> string(5) "miles" } [2]=> array(5) { [0]=> string(5) "miles" [1]=> string(5) "miles" [2]=> string(5) "miles" [3]=> string(5) "miles" [4]=> string(5) "miles" } [3]=> array(5) { [0]=> string(5) "miles" [1]=> string(5) "miles" [2]=> string(5) "miles" [3]=> string(5) "miles" [4]=> string(5) "miles" } } ["country_id"]=> string(4) "1228" ["country"]=> string(13) "United States" }
-    */
-    // Compare with the normal search 
-    echo '<pre>proximityAddress';
-    var_dump($proximityAddress);
-    echo '</pre>';
+   
+    // SEARCH BUILDER (This shall be on other place)
+    if(isset($temp_distance)){
+      // This is used to filter in the case there are only 1 type of distance unit, so select it,
+      // to make the calculations (when it's passed an array it gives problem).
+      $merged = call_user_func_array('array_merge', $proximityAddress['distance_unit']); // Join the subarrays in 1 to check      
+      if (count(array_unique($merged)) === 1) {
+        foreach ($proximityAddress['distance_unit'] as $key => $value) {
+          $proximityAddress['distance_unit'] = reset($proximityAddress['distance_unit'][$key]);  // get only 1 value.
+          break;
+        }
+      } 
+    }
+
     if (
       isset($proximityAddress['distance_unit']) &&
       $proximityAddress['distance_unit'] == 'miles'
@@ -387,7 +387,10 @@ var_dump($where);
       $query->_where[$grouping][] = ' (0) ';
       return NULL;
     }
-
+/*ECHO 'AFASFAF';
+    var_dump( $proximityAddress['geo_code_1']);
+    var_dump( $proximityAddress['geo_code_2']);
+    var_dump( $distance);*/
     $query->_qill[$grouping][] = $qill;
     $query->_where[$grouping][] = self::where(
       $proximityAddress['geo_code_1'],
