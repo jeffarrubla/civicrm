@@ -109,8 +109,6 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search {
         $searchByLabelFields[] = $name;
       }
     }
-//var_dump(  $searchByLabelFields );
-  //  var_dump( array('' => ts('-operator-')) + CRM_Core_SelectValues::getSearchBuilderOperators(CRM_Utils_Type::T_STRING) ) ;
     // Add javascript
     CRM_Core_Resources::singleton()
       ->addScriptFile('civicrm', 'templates/CRM/Contact/Form/Search/Builder.js', 1, 'html-header')
@@ -154,15 +152,13 @@ class CRM_Contact_Form_Search_Builder extends CRM_Contact_Form_Search {
    * @return array
    *   list of errors to be posted back to the form
    */
-  public static function formRule($values, $files, $self) { // var_dump($_POST);    
+  public static function formRule($values, $files, $self) {
     if (!empty($values['addMore']) || !empty($values['addBlock'])) {
       return TRUE;
     }
     $fields = self::fields();
     $fld = CRM_Core_BAO_Mapping::formattedFields($values, TRUE);
 
-/*var_dump($values );
-var_dump($fld );*/
     $errorMsg = array();
     foreach ($fld as $k => $v) {
       if (!$v[1]) {

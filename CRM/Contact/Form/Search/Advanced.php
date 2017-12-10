@@ -45,7 +45,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
     parent::preProcess();
     $openedPanes = CRM_Contact_BAO_Query::$_openedPanes;
     $openedPanes = array_merge($openedPanes, $this->_openedPanes);
-    $this->assign('openedPanes', $openedPanes);
+    $this->assign('openedPanes', $openedPanes); 
   }
 
   /**
@@ -224,7 +224,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
    * The processing consists of using a Selector / Controller framework for getting the
    * search results.
    */
-  public function postProcess() {
+  public function postProcess() { 
     $this->set('isAdvanced', '1');
 
     // get user submitted values
@@ -325,7 +325,7 @@ class CRM_Contact_Form_Search_Advanced extends CRM_Contact_Form_Search {
    * This prevents a ton of work downstream and allows us to use the same code for
    * multiple purposes (queries, save/edit etc)
    */
-  public function normalizeFormValues() {
+  public function normalizeFormValues() { 
     $contactType = CRM_Utils_Array::value('contact_type', $this->_formValues);
 
     if ($contactType && is_array($contactType)) {

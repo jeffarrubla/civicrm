@@ -143,16 +143,6 @@ class HTML_QuickForm_hierselect extends HTML_QuickForm_group
      */
     function setOptions($options)
     {
-
-/*$trace = debug_backtrace();
-$caller = $trace[1];
-echo '<pre>options_';
-var_dump($options);
-echo '</pre>';
-echo "Called by {$caller['function']}";
-if (isset($caller['class']))
-    echo " in {$caller['class']}";*/
-//var_dump($options);
         $this->_options = $options;
 
         if (empty($this->_elements)) {
@@ -166,10 +156,7 @@ if (isset($caller['class']))
                 $this->_elements[] = new HTML_QuickForm_select($i, null, array(), $this->getAttributes());
                 $this->_nbElements++;
             }
-        }/*echo '_elements';
-        echo '<pre>';
-        var_dump($this->_nbElements);
-        echo '</pre>';*/
+        }
         $this->_setOptions();
         $this->_setJS();
     } // end func setMainOptions
@@ -313,13 +300,8 @@ if (isset($caller['class']))
     function _setJS()
     {
         static $jsArrayName = null;
-//echo '<pre>';
         $this->_js = $js = '';
-        if ( ! $jsArrayName ) {
-            /*var_dump($this->_options);
-            echo 'getNAme';
-
-            var_dump( $this->getName());*/
+        if ( ! $jsArrayName ) {            
             $this->_jsArrayName = 'hs_' . preg_replace('/\[|\]/', '_', $this->getName());
             for ($i = 1; $i < $this->_nbElements; $i++) {
                 $this->_setJSArray($this->_jsArrayName, $this->_options[$i], $js);
@@ -327,9 +309,7 @@ if (isset($caller['class']))
             $jsArrayName = $this->_jsArrayName;
         } else {
             $this->_jsArrayName = $jsArrayName;
-        }/* echo '_js';
-        echo '</pre>';
-        var_dump($this->_js );*/
+        }
     } // end func _setJS
     
     // }}}

@@ -37,13 +37,11 @@
             <td class="form-item even-row">
               {$form.mapper[$x][$i].html}
               {$form.operator[$x][$i].html|crmAddClass:'required'}&nbsp;&nbsp;
-              <!-- I ADDED THIS -->             
-               <!--<span class="crm-search-value" id="hs_mapper_{$x}_{$i}__Contact_postal_code_{$x}_{$i}">-->
-                <!--<div class="crm-search-value" id="hs_mapper_{$x}__{$i}__Contact_postal_code_{$x}_">-->
+              <!-- I HAVE ADDED THIS -->                            
                 {$form.prox_distance[$x][$i].html}
                 {$form.prox_distance_unit[$x][$i].html}
               <!--</div>-->
-              <!-- / I ADDED THIS -->
+              <!-- / I HAVE ADDED THIS -->
               <span class="crm-search-value" id="crm_search_value_{$x}_{$i}">
                 {$form.value[$x][$i].html|crmAddClass:'required'}
               </span>

@@ -375,7 +375,7 @@ class CRM_Contact_Form_Search_Criteria {
     ));
 
     // custom data extending addresses
-    CRM_Core_BAO_Query::addCustomFormFields($form, array('Address')); //var_dump($prox_distance);
+    CRM_Core_BAO_Query::addCustomFormFields($form, array('Address')); 
   }
 
   /**

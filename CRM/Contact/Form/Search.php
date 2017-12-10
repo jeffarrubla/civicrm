@@ -198,7 +198,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form_Search {
     return $searchContext ? TRUE : FALSE;
   }
 
-  public static function setModeValues() {
+  public static function setModeValues() {    
     if (!self::$_modeValues) {
       self::$_modeValues = array(
         1 => array(
@@ -274,7 +274,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form_Search {
           'taskClassName' => 'CRM_Mailing_Task',
         ),
       );
-    }
+    }   
   }
 
   /**
@@ -494,7 +494,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form_Search {
   /**
    * Processing needed for buildForm and later.
    */
-  public function preProcess() {
+  public function preProcess() { 
     // set the various class variables
 
     $this->_group = CRM_Core_PseudoConstant::group();
@@ -558,7 +558,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form_Search {
       $this->normalizeFormValues();
       $this->_params = CRM_Contact_BAO_Query::convertFormValues($this->_formValues, 0, FALSE, NULL, $this->entityReferenceFields);
       $this->_returnProperties = &$this->returnProperties();
-
       // also get the uf group id directly from the post value
       $this->_ufGroupID = CRM_Utils_Array::value('uf_group_id', $_POST, $this->_ufGroupID);
       $this->_formValues['uf_group_id'] = $this->_ufGroupID;
@@ -706,7 +705,6 @@ class CRM_Contact_Form_Search extends CRM_Core_Form_Search {
     );
     $controller->setEmbedded(TRUE);
     $controller->setDynamicAction($setDynamic);
-
     if ($this->_force) {
 
       $this->postProcess();
@@ -744,7 +742,7 @@ class CRM_Contact_Form_Search extends CRM_Core_Form_Search {
   /**
    * Common post processing.
    */
-  public function postProcess() {
+  public function postProcess() { 
     /*
      * sometime we do a postProcess early on, so we dont need to repeat it
      * this will most likely introduce some more bugs :(

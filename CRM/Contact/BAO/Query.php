@@ -1361,7 +1361,7 @@ class CRM_Contact_BAO_Query {
    * @return array
    *   sql query parts as an array
    */
-  public function query($count = FALSE, $sortByChar = FALSE, $groupContacts = FALSE, $onlyDeleted = FALSE) {
+  public function query($count = FALSE, $sortByChar = FALSE, $groupContacts = FALSE, $onlyDeleted = FALSE) { 
     // build permission clause
     $this->generatePermissionClause($onlyDeleted, $count);
 
@@ -1550,8 +1550,8 @@ class CRM_Contact_BAO_Query {
    *
    * @return array
    */
-  public static function convertFormValues(&$formValues, $wildcard = 0, $useEquals = FALSE, $apiEntity = NULL,
-    $entityReferenceFields = array()) {
+  public static function convertFormValues(&$formValues, $wildcard = 0, $useEquals = FALSE, $apiEntity = NULL,    
+    $entityReferenceFields = array()) {    
     $params = array();
     if (empty($formValues)) {
       return $params;
@@ -1559,6 +1559,7 @@ class CRM_Contact_BAO_Query {
 
     self::filterCountryFromValuesIfStateExists($formValues);
 
+    
     foreach ($formValues as $id => &$val) {
       // CRM-19374 - we don't want to change $val in $formValues.
       // Assign it to a temp variable which operates while iteration.
@@ -1664,7 +1665,7 @@ class CRM_Contact_BAO_Query {
         }
         $params[] = $values;
       }
-    }
+    } 
     return $params;
   }
 
@@ -1779,6 +1780,12 @@ class CRM_Contact_BAO_Query {
    * @param string $apiEntity
    */
   public function whereClauseSingle(&$values, $apiEntity = NULL) {
+    // I ADDED THIS
+    // I need the builder go to this case prox_postal_code,
+    // so it can use the postal code for the search with proximity.
+    // that's important for do a proper search.
+    // compare with advance search this is the key check in the var_dump the 'values'
+    
     // do not process custom fields or prefixed contact ids or component params
     if (CRM_Core_BAO_CustomField::getKeyID($values[0]) ||
       (substr($values[0], 0, CRM_Core_Form::CB_PREFIX_LEN) == CRM_Core_Form::CB_PREFIX) ||
@@ -1994,7 +2001,6 @@ class CRM_Contact_BAO_Query {
         return;
 
       case 'prox_distance':
-      //var_dump($values);
         CRM_Contact_BAO_ProximityQuery::process($this, $values);
         return;
 
@@ -2022,9 +2028,6 @@ class CRM_Contact_BAO_Query {
   public function whereClause($apiEntity = NULL) {
     $this->_where[0] = array();
     $this->_qill[0] = array();
-    /*echo '<pre>_params';
-    var_dump($this->_params);
-    echo '</pre>';*/
     $this->includeContactIds();
     if (!empty($this->_params)) {
       foreach (array_keys($this->_params) as $id) {
@@ -2041,7 +2044,6 @@ class CRM_Contact_BAO_Query {
       }
 
       CRM_Core_Component::alterQuery($this, 'where');
-
       CRM_Contact_BAO_Query_Hook::singleton()->alterSearchQuery($this, 'where');
     }
 

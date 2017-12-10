@@ -214,7 +214,6 @@ class CRM_Contact_BAO_ProximityQuery {
    */
   public static function where($latitude, $longitude, $distance, $tablePrefix = 'civicrm_address') {
     self::initialize();
-//var_dump($distance);
     $params = array();
     $clause = array();
 
@@ -248,7 +247,7 @@ ACOS(
     SIN(RADIANS($latitude))
   ) * 6378137  <= $distance
 ";
-//var_dump($where);
+
     return $where;
   }
 
@@ -263,9 +262,8 @@ ACOS(
    */
   public static function process(&$query, &$values) {
     list($name, $op, $distance, $grouping, $wildcard) = $values;
-    /* SRTART: I HAVE ADDED THIS */
-    //var_dump($distance);
-    // SEARCH BUILDIER (This shall be on other place)
+    /* START: I HAVE ADDED THIS */    
+    // SEARCH BUILDIER (The next code, shall be on other place)
     // To filter the array with the distance so we can work with it.
     // Create an string so it can be $distance OR $distance OR $distance
     // so the where statement on query can be done.  
@@ -310,7 +308,6 @@ ACOS(
         }
       }
     }
-
     if (empty($proximityAddress)) {
       return NULL;
     }
@@ -335,8 +332,9 @@ ACOS(
       $proximityAddress['country'] = CRM_Core_PseudoConstant::country($proximityAddress['country_id']);
       $qill[] = $proximityAddress['country'];
     }
-   
-    // SEARCH BUILDER (This shall be on other place)
+
+    //I HAVE ADDED THIS   
+    // SEARCH BUILDER (The next code, shall be on other place)
     if(isset($temp_distance)){
       // This is used to filter in the case there are only 1 type of distance unit, so select it,
       // to make the calculations (when it's passed an array it gives problem).
@@ -387,10 +385,6 @@ ACOS(
       $query->_where[$grouping][] = ' (0) ';
       return NULL;
     }
-/*ECHO 'AFASFAF';
-    var_dump( $proximityAddress['geo_code_1']);
-    var_dump( $proximityAddress['geo_code_2']);
-    var_dump( $distance);*/
     $query->_qill[$grouping][] = $qill;
     $query->_where[$grouping][] = self::where(
       $proximityAddress['geo_code_1'],
