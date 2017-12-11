@@ -340,7 +340,6 @@ class CRM_Contact_BAO_Individual extends CRM_Contact_DAO_Contact {
     if ($middle_name = CRM_Utils_Array::value('middle_name', $params)) {
       $contact->middle_name = $middle_name;
     }
-
     return $contact;
   }
 

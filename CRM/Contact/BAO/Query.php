@@ -1495,6 +1495,14 @@ class CRM_Contact_BAO_Query {
    */
   public function getWhereValues($name, $grouping) {
     $result = NULL;
+    // I HAVE ADDED THIS
+    // This is for SEARCH BUILDER
+    // Allows to get the postal codes for quering
+    if( isset($this->_params[1][0] ) && $this->_params[1][0] == "mapper")
+      if( $this->_params[1][2][1][0][1] == 'postal_code'  ){
+        $this->_params[4][0] = 'prox_postal_code';
+        $this->_params[4][1] = '=';        
+      }
     foreach ($this->_params as $values) {
       if ($values[0] == $name && $values[3] == $grouping) {
         return $values;

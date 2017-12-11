@@ -266,7 +266,7 @@ ACOS(
     // SEARCH BUILDIER (The next code, shall be on other place)
     // To filter the array with the distance so we can work with it.
     // Create an string so it can be $distance OR $distance OR $distance
-    // so the where statement on query can be done.  
+    // so the where statement on query can be done.      
     if(is_array($distance)){
       $result = '';
       foreach ($distance as $key => $value) {
@@ -297,8 +297,7 @@ ACOS(
     $proximityAddress = array();
     $qill = array();
     foreach ($proximityVars as $var => $recordQill) {
-      $proximityValues = $query->getWhereValues("prox_{$var}", $grouping);
-
+      $proximityValues = $query->getWhereValues("prox_{$var}", $grouping);      
       if (!empty($proximityValues) &&
         !empty($proximityValues[2])
       ) {
@@ -311,6 +310,7 @@ ACOS(
     if (empty($proximityAddress)) {
       return NULL;
     }
+
 
     if (isset($proximityAddress['state_province_id'])) {
       $proximityAddress['state_province'] = CRM_Core_PseudoConstant::stateProvince($proximityAddress['state_province_id']);
@@ -333,7 +333,7 @@ ACOS(
       $qill[] = $proximityAddress['country'];
     }
 
-    //I HAVE ADDED THIS   
+    // I HAVE ADDED THIS   
     // SEARCH BUILDER (The next code, shall be on other place)
     if(isset($temp_distance)){
       // This is used to filter in the case there are only 1 type of distance unit, so select it,
@@ -358,6 +358,15 @@ ACOS(
       $qillUnits = " {$distance} " . ts('km');
       $distance = $distance * 1000.00;
     }
+    // I HAVE ADDED THIS   
+    // This filter the arrays for the postals code.
+    if(is_array($qill[0])){
+      $qill[0] = array_unique(call_user_func_array('array_merge', $qill[0]));
+      $qill[0] = array_filter($qill[0]);
+      if(count($qill[0])==1)
+        $qill[0] = $qill[0][0];      
+      $proximityAddress['postal_code'] = $qill[0];
+    }
 
     $qill = ts('Proximity search to a distance of %1 from %2',
       array(
@@ -371,8 +380,7 @@ ACOS(
       CRM_Core_Error::fatal(ts('Proximity searching requires you to set a valid geocoding provider'));
     }
 
-    $query->_tables['civicrm_address'] = $query->_whereTables['civicrm_address'] = 1;
-
+    $query->_tables['civicrm_address'] = $query->_whereTables['civicrm_address'] = 1;    
     require_once str_replace('_', DIRECTORY_SEPARATOR, $fnName) . '.php';
     $fnName::format($proximityAddress);
     if (

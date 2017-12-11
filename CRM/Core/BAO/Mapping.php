@@ -427,12 +427,6 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping {
           'name' => 'note_subject',
         );
       }
-      //$fields['Contact']["postal_code"]['within'] = array("kilos"=>'Kilometers', "miles"=>'Miles');
-/*
-      echo '<pre>';
-      echo '$fields';
-          var_dump($fields);
-        echo '</pre>';*/
     }
 
     if (($mappingType == 'Search Builder') || ($exportMode == CRM_Export_Form_Select::CONTRIBUTE_EXPORT)) {

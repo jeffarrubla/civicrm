@@ -82,7 +82,7 @@ class CRM_Contact_BAO_GroupOrganization extends CRM_Contact_DAO_GroupOrganizatio
 
     if (!empty($params['organization_id'])) {
       $formatedValues['organization_id'] = $params['organization_id'];
-    }
+    }    
   }
 
   /**

@@ -38,8 +38,10 @@
               {$form.mapper[$x][$i].html}
               {$form.operator[$x][$i].html|crmAddClass:'required'}&nbsp;&nbsp;
               <!-- I HAVE ADDED THIS -->                            
+              <span id="distance_{$x}_{$i}" >
                 {$form.prox_distance[$x][$i].html}
                 {$form.prox_distance_unit[$x][$i].html}
+              </span>
               <!--</div>-->
               <!-- / I HAVE ADDED THIS -->
               <span class="crm-search-value" id="crm_search_value_{$x}_{$i}">

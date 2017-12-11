@@ -120,7 +120,6 @@ class CRM_Utils_Geocode_Google {
     }
 
     $query = 'https://' . self::$_server . self::$_uri . $add;
-
     require_once 'HTTP/Request.php';
     $request = new HTTP_Request($query);
     $request->sendRequest();

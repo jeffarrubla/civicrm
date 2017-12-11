@@ -792,7 +792,7 @@ INNER JOIN civicrm_contact contact_target ON ( contact_target.id = act.contact_i
       }
       $contact->free();
     }
-
+    
     return $contactDetails;
   }
 

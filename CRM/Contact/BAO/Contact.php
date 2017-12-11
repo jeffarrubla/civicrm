@@ -1595,7 +1595,6 @@ WHERE id={$id}; ";
         self::$_exportableFields[$cacheKeyString]
       );
     }
-
     return $fields;
   }
 

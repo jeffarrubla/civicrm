@@ -282,7 +282,6 @@ class CRM_Contact_Form_Search_Criteria {
     // Build location criteria based on _submitValues if
     // available; otherwise, use $form->_formValues.
     $formValues = $form->_submitValues;
-//var_dump($formValues); //here is the thing of prox_distance the value on submit
     if (empty($formValues) && !empty($form->_formValues)) {
       $formValues = $form->_formValues;
     }

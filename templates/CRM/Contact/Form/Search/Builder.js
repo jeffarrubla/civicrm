@@ -14,7 +14,15 @@
     var field = $('select[id^=mapper][id$="_1"]', row).val();
     var operator = $('select[id^=operator]', row);
     var op = operator.val();
-    
+    // I HAVE ADDED THIS
+    // If they select the postal_code, then so the select for units and input for the distance, otherwise hide
+    if(field === 'postal_code'){      
+      $('span[id^=distance_]', row).show();
+    }else{
+      $('span[id^=distance_]', row).hide();
+      $('input[id^=prox_distance_]', row).val('');
+    }
+
     var patt = /_1$/; // pattern to check if the change event came from field name
     if (field !== null && patt.test(this.id)) {
       if ($.inArray(field, CRM.searchBuilder.stringFields) >= 0) {
@@ -229,6 +237,8 @@
   }
 
   $(function($) {
+    // I HAVE ADDED THIS
+    $('span[id^=distance_]').hide(); // To hide the input and select for the distance and units of postal code
     $('#crm-main-content-wrapper')
       // Reset and hide row
       .on('click', '.crm-reset-builder-row', function() {
@@ -272,9 +282,8 @@
       })
       .on('crmLoad', function() {
         initialize();
-        $('select[id^=mapper][id$="_1"]', '#Builder').each(handleUserInputField);
+        $('select[id^=mapper][id$="_1"]', '#Builder').each(handleUserInputField);        
       });
-
     initialize();
 
     // Fetch initial options during page refresh - it's more efficient to bundle them in a single ajax request
